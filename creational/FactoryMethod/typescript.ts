@@ -13,13 +13,11 @@ class Factory1 implements AnimalFactory {
     console.log(animalSound);
   }
   public factoryMethod(): Animal {
-    console.log("do some logic specific for this kind of creation");
-    function animalSoundOne() {
-      console.log("first sound");
-    }
+    console.log("do some logic specific for this kind of creation - no sound");
+
     const newAnimalFromFactory1: Animal = {
       name: "duck",
-      animalSound: animalSoundOne,
+      animalSound: () => {},
     };
     return newAnimalFromFactory1;
   }
@@ -31,12 +29,9 @@ class Factory2 implements AnimalFactory {
   }
   public factoryMethod(): Animal {
     console.log("do a different logic");
-    function animalSoundTwo() {
-      console.log("second sound");
-    }
     const newAnimalFromFactory2: Animal = {
       name: "cat",
-      animalSound: animalSoundTwo,
+      animalSound: () => console.log("second sound"),
     };
     return newAnimalFromFactory2;
   }
@@ -44,7 +39,7 @@ class Factory2 implements AnimalFactory {
 
 function clientCode(creator: AnimalFactory) {
   const newAnimal = creator.factoryMethod();
-  console.log("name of the animal: ", newAnimal.name);
+  console.log("name of the animal: ", newAnimal.name, "sound: ");
   newAnimal.animalSound();
 }
 
