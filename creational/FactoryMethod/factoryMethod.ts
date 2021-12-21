@@ -18,12 +18,13 @@ class SteelPokemonCreator implements Pokemon {
   }
 }
 
-function clientCode(creator: Pokemon) {
+const wantsToCreateWaterPokemon = true;
+if (wantsToCreateWaterPokemon) {
+  const newPokemon = new WaterPokemonCreator();
   console.log(
-    "Client: I'm not aware of the creator's class, but it still works."
+    `The pokémon named ${newPokemon.name} is able to surf? ${
+      newPokemon.canSurf ? "yes" : "no"
+    }.`
   );
-  console.log(creator.sound());
+  newPokemon.sound();
 }
-clientCode(new WaterPokemonCreator());
-console.log("==");
-clientCode(new SteelPokemonCreator());
