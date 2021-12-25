@@ -1,47 +1,44 @@
-interface Animal {
-  name: string;
-  animalSound(): void;
+interface IFactory {
+  drive(miles: number): void;
 }
 
-abstract class AnimalFactory {
-  public abstract factoryMethod(): Animal;
-  public abstract animalSound(animalSound: string): void;
-}
-
-class Factory1 implements AnimalFactory {
-  public animalSound(animalSound: string): void {
-    console.log(animalSound);
-  }
-  public factoryMethod(): Animal {
-    console.log("do some logic specific for this kind of creation - no sound");
-
-    const newAnimalFromFactory1: Animal = {
-      name: "duck",
-      animalSound: () => {},
-    };
-    return newAnimalFromFactory1;
+class Bike implements IFactory {
+  drive(miles: number): void {
+    console.log(`Driving ${miles} miles by bike.`);
   }
 }
 
-class Factory2 implements AnimalFactory {
-  public animalSound(animalSound: string): void {
-    console.log(animalSound);
-  }
-  public factoryMethod(): Animal {
-    console.log("do a different logic");
-    const newAnimalFromFactory2: Animal = {
-      name: "cat",
-      animalSound: () => console.log("second sound"),
-    };
-    return newAnimalFromFactory2;
+class Scooter implements IFactory {
+  drive(miles: number): void {
+    console.log(`Driving ${miles} miles by scooter.`);
   }
 }
 
-function clientCode(creator: AnimalFactory) {
-  const newAnimal = creator.factoryMethod();
-  console.log("name of the animal: ", newAnimal.name, "sound: ");
-  newAnimal.animalSound();
+interface VehicleFactory {
+  getVehicle(vehicle: string): IFactory;
 }
 
-clientCode(new Factory1());
-clientCode(new Factory2());
+class ConcreteVehicleFactory implements VehicleFactory {
+  getVehicle(vehicle: string): IFactory {
+    switch (vehicle) {
+      case "Scooter":
+        return new Scooter();
+      case "Bike":
+        return new Bike();
+      default:
+        throw new Error("Should select between 'Scooter' and 'Bike'");
+    }
+  }
+}
+
+// in the code
+
+const factory = new ConcreteVehicleFactory();
+
+const scooter: IFactory = factory.getVehicle("Scooter");
+
+scooter.drive(200);
+
+const bike: IFactory = factory.getVehicle("Bike");
+
+bike.drive(3000);
