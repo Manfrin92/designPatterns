@@ -18,7 +18,7 @@ class Prototype {
 }
 
 class ComponentReference {
-  public prototype;
+  public prototype: Prototype;
 
   constructor(prototype: Prototype) {
     this.prototype = prototype;
@@ -26,7 +26,7 @@ class ComponentReference {
 }
 
 class ComponentWithBackReference {
-  public prototype;
+  public prototype: Prototype;
 
   constructor(prototype: Prototype) {
     this.prototype = prototype;
@@ -37,7 +37,7 @@ function clientCode() {
   const p1 = new Prototype();
   p1.primitive = 245;
   p1.component = new Date();
-  p1.circularReference = new ComponentReference(p1);
+  p1.circularReference = new ComponentWithBackReference(p1);
 
   const p2 = p1.clone();
   if (p1.primitive === p2.primitive) {
